@@ -1,0 +1,20 @@
+{
+  "name": "nordhub-slots",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Демо-проект: портал перевозчика NordHub — бронирование слотов на разгрузку. Используется для демонстрации AI-augmented QA.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "setup": "bash scripts/setup.sh",
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "playwright": "1.56.0"
+  },
+  "engines": {
+    "node": ">=20.11"
+  }
+}
