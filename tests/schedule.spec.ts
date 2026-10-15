@@ -32,8 +32,8 @@ test.describe('Расписание слотов @schedule', () => {
     await expect(page.locator('[data-testid="slot"][data-hour="9"]')).toContainText('Свободно');
   });
 
-  // Старый тест: ищет кнопку по тексту, а не по data-testid.
+  // Локатор по data-testid: текст кнопки менялся («Показать слоты» → «Найти слоты»).
   test('кнопка поиска слотов доступна', async ({ page }) => {
-    await expect(page.getByRole('button', { name: 'Показать слоты' })).toBeEnabled();
+    await expect(page.getByTestId('show-slots')).toBeEnabled();
   });
 });
