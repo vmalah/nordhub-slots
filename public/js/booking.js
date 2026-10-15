@@ -5,14 +5,13 @@ export const VEHICLE_TYPES = [
   'Фура (тент, до 20 т)',
   'Рефрижератор',
   'Малотоннажное (до 3,5 т)',
-  'Контейнеровоз',
 ];
 
 export const RULES = {
   maxDaysAhead: 14,
-  minHoursBeforeSlot: 1,
+  minHoursBeforeSlot: 2,
   minPallets: 1,
-  maxPallets: 30,
+  maxPallets: 33,
   maxWeight: 20,
 };
 
@@ -28,7 +27,10 @@ export function validateBooking(form, now = getNow()) {
   if (!form.date) {
     errors.date = 'Укажите дату';
   } else {
-    const days = Math.floor((new Date(`${form.date}T00:00:00`) - now) / DAY_MS);
+    // Сравниваем календарные дни, а не миллисекунды от текущего момента
+    const today = new Date(now);
+    today.setHours(0, 0, 0, 0);
+    const days = Math.round((new Date(`${form.date}T00:00:00`) - today) / DAY_MS);
     if (days < 0) errors.date = 'Дата не может быть в прошлом';
     else if (days > RULES.maxDaysAhead) errors.date = 'Бронирование доступно не более чем на 14 дней вперёд';
   }
@@ -48,10 +50,10 @@ export function validateBooking(form, now = getNow()) {
 
   const pallets = Number(form.pallets);
   if (!Number.isInteger(pallets) || pallets < RULES.minPallets || pallets > RULES.maxPallets) {
-    errors.pallets = `Не более ${RULES.maxPallets} паллет`;
+    errors.pallets = `От ${RULES.minPallets} до ${RULES.maxPallets} паллет`;
   }
 
-  const weight = parseFloat(form.weight);
+  const weight = Number(String(form.weight).replace(',', '.')); // «20,5» → 20.5
   if (!(weight > 0)) errors.weight = 'Укажите вес груза';
   else if (weight > RULES.maxWeight) errors.weight = 'Превышен допустимый вес';
 
