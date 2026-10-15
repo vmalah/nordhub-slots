@@ -34,6 +34,6 @@ test.describe('Расписание слотов @schedule', () => {
 
   // Старый тест: ищет кнопку по тексту, а не по data-testid.
   test('кнопка поиска слотов доступна', async ({ page }) => {
-    await expect(page.getByRole('button', { name: 'Показать слоты' })).toBeEnabled();
+    await expect(page.getByRole('button', { name: 'Найти слоты' })).toBeEnabled();
   });
 });

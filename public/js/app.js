@@ -162,6 +162,9 @@ async function submitBooking(event) {
   showErrors(errors);
   if (Object.keys(errors).length > 0) return;
 
+  const submitButton = document.getElementById('submit');
+  if (submitButton.disabled) return; // защита от двойной отправки
+  submitButton.disabled = true;
   const booking = await createBooking({
     ...form,
     plate: form.plate.trim().toUpperCase(),

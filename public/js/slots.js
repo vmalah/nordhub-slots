@@ -3,7 +3,7 @@ import { pad } from './clock.js';
 
 export const DAY_START = 8; // первый слот 08:00
 export const LUNCH_HOUR = 12; // 12:00–13:00 — обед, слота нет
-export const SLOT_COUNT = 8; // 8 часовых слотов в день
+export const DAY_END = 17; // последний слот заканчивается в 17:00
 
 export function slotLabel(hour) {
   return `${pad(hour)}:00–${pad(hour + 1)}:00`;
@@ -19,7 +19,7 @@ export function getSlots(warehouseId, date, ownBookings = []) {
     ...ownBookings.filter((b) => b.warehouseId === warehouseId && b.date === date).map((b) => b.hour),
   ]);
 
-  return Array.from({ length: SLOT_COUNT }, (_, i) => DAY_START + i)
+  return Array.from({ length: DAY_END - DAY_START }, (_, i) => DAY_START + i)
     .filter((h) => h !== LUNCH_HOUR)
     .map((h) => ({ hour: h, label: slotLabel(h), busy: busy.has(h) }));
 }
